@@ -3,7 +3,7 @@ TCP port scanner built in C++ for learning networking and security fundamentals
 
 Ive done this project in windows 11 home, not in linux then i had to use the libraries <winsock2.h> & #include <ws2tcpip.h>.
 
-V1
+## V1 Single-port-scanner
 
 First of all, we've to input as arguments the IP and PORT we want to scan (for example: scanner.exe x.x.x.x 80)
 that port "80" is stored as a string, so we use STOI (String to integer) on the port argument since the arguments are always c-string.
@@ -25,3 +25,13 @@ now comes the three way handshake, that lets us know if that port is open or clo
 If there is an error, we check the wsa error buffer to check if its a timeout or the port is closed.
 
 Finally, we have to close the socket and clean the WSA.
+
+## V2 Port-range-scanner
+
+Now, the program scans a range of ports (given by parameters with syntax "x-y") We get the first and last port to check using parsing, getting the position of "-" before using stoi on each string.
+
+After that, we just add a foor loop from portIni to portFin just before creating the socket, because sockets cannot be used for multiple ports.
+
+I've implemented an chrono to check the time each port gives conection and deleted the timeout.
+
+Last, we clean the WSA.

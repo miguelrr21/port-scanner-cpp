@@ -30,8 +30,16 @@ Finally, we have to close the socket and clean the WSA.
 
 Now, the program scans a range of ports (given by parameters with syntax "x-y") We get the first and last port to check using parsing, getting the position of "-" before using stoi on each string.
 
-After that, we just add a foor loop from portIni to portFin just before creating the socket, because sockets cannot be used for multiple ports.
+After that, we just add a for loop from portIni to portFin just before creating the socket, because sockets cannot be used for multiple ports.
 
 I've implemented an chrono to check the time each port gives conection and deleted the timeout.
 
 Last, we clean the WSA.
+
+## V3 Thread_usage
+
+We created a new function, void scanner(std::string ip, int port) , with all the socket creation and conection process. It also has the mutex for the cout, in case two different threads finish at the same time, output is not overlapped.
+
+then in the main, first we created a vector of threads "hilos_puertos", then a for loop that creates a thread for each port and moves it to the vector (keep in mind, threads cannot be copied, so we have to move the process)
+
+Last we check if every thread has finished, using a "range for" and the function join().

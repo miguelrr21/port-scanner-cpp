@@ -43,3 +43,11 @@ We created a new function, void scanner(std::string ip, int port) , with all the
 then in the main, first we created a vector of threads "hilos_puertos", then a for loop that creates a thread for each port and moves it to the vector (keep in mind, threads cannot be copied, so we have to move the process)
 
 Last we check if every thread has finished, using a "range for" and the function join().
+
+## V4 Banner_grabbing
+
+we just implemented an array that, if the socket connects and the port is OPEN, it receives the first 1024 bytes of the banner. we have to set a timeout with SO_RCVTIMEO so the program keeps running after 1000ms in case there is a problem with the open port and the banner.
+
+After checking if there is a banner (based on the number of bytes received) we print the received banner. if there isn't, we just print the ip and port.
+
+In cases like port 80 (HTTP) that doesn't send a banner, the connection itself succeeds quickly, but the thread still waits 1000ms before giving up on receiving a banner and printing the final result.

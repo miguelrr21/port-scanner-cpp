@@ -118,6 +118,9 @@ int main(int argc, char* argv[]) {
 
     int portIni = std::stoi(rango.substr(0, pos));
     int portFin = std::stoi(rango.substr(pos+1));
+    if (portIni > portFin){
+        std::cout << "Error: el orden de rango de los puertos es inverso: " << portFin << "-" << portIni << std::endl;
+    }
 
     //int port = std::stoi(argv[2]); // convierte el texto "80" al numero 80
 

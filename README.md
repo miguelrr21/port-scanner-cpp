@@ -51,3 +51,7 @@ we just implemented an array that, if the socket connects and the port is OPEN, 
 After checking if there is a banner (based on the number of bytes received) we print the received banner. if there isn't, we just print the ip and port.
 
 In cases like port 80 (HTTP) that doesn't send a banner, the connection itself succeeds quickly, but the thread still waits 1000ms before giving up on receiving a banner and printing the final result.
+
+### V4.1 Use of semaphore
+
+Found a bug, not all the ports were checked, so I implemented a semaphore to make sure all ports were scanned.

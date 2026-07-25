@@ -16,8 +16,14 @@
 #include <mutex>
 #include <vector>
 
+//V5
+#include <semaphore>
+
+
 //"Controlador de escritura compartido"
 std::mutex mutex_salida;
+//numero de hijos maximos al mismo tiempo
+std::counting_semaphore<100> semaforo(100);
 
 // Le decimos al linker que enlace la libreria de Winsock.
 // En Linux esto no hace falta, pero en Windows si no lo pones, el programa no compila.
@@ -97,6 +103,8 @@ void scanner(std::string ip, int port){
         // Cerramos el socket y liberamos Winsock. Importante hacerlo siempre,
         // incluso en los caminos de error de arriba (si no, se "filtran" recursos).
         closesocket(sock);
+        semaforo.release();
+
 }
 
 
@@ -142,6 +150,7 @@ int main(int argc, char* argv[]) {
 
     //v3 creo los hilos y los almaceno en el vector
     for (int port = portIni ; port <= portFin ; port++){
+        semaforo.acquire();
         std::thread puerto(scanner,ip,port);
         hilos_puertos.push_back(std::move(puerto));
     }
